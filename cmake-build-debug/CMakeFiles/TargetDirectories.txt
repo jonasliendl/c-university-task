@@ -1,0 +1,3 @@
+/Users/jonasliendl/repos/c-university-task/cmake-build-debug/CMakeFiles/c_university_task.dir
+/Users/jonasliendl/repos/c-university-task/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/jonasliendl/repos/c-university-task/cmake-build-debug/CMakeFiles/rebuild_cache.dir
