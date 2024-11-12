@@ -1,3 +1,5 @@
+#include "utils/rand.h"
+
 typedef struct Node {
     int data;              // Datenelement des Nodes
     struct Node* next;     // Zeiger auf den nächsten Node
@@ -11,7 +13,7 @@ als Parameter angegeben wird. Sie verwendet die Funktion Reserve(), um Arbeitssp
 einzelnen Knoten zu reservieren, und verbindet den neue Knoten in die Liste. Sie gibt die
 Anfangsadresse der Liste zurück.
 */
-Node* Gen();
+Node* Gen(unsigned int length);
 
 
 /*
@@ -19,7 +21,7 @@ Diese Funktion reserviert einen Speicherbereich für einen Knoten und initialisi
 keine Parameter und gibt die Adresse des reservierten Bereiches zurück. Die Zahl im Knoten wird
 mit einem Zufallswert von 0 bis größtmöglichen Wert belegt.
 */
-long* Reserver();
+Node* Reserve();
 
 
 /*
