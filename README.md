@@ -77,4 +77,4 @@ Konstanten und/oder globalen Variablen, Preprozessorvariablen, Datentypen, Proto
 Zahl erzeugen </br>
 Prüfprogramm, dass die Zahl überprüft (freiwillig) 
 Threadanzahl anpassbar  
-
+Zwei getrennte Programme; trotzdem gemeinsame Funktionalität 
