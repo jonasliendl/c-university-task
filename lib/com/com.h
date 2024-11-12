@@ -4,6 +4,9 @@ typedef struct Node {
     struct Node* prev;     // Zeiger auf den vorherigen Node
 } Node;
 
+void AppendToList(Node* list_component, Node* new_item);
+
+int GetListLength(Node* list_component);
 
 /*
 Diese Funktion generiert eine doppelt verkettete lineare Liste mit ganzen Zahlen, deren Anzahl
@@ -19,7 +22,7 @@ Diese Funktion reserviert einen Speicherbereich für einen Knoten und initialisi
 keine Parameter und gibt die Adresse des reservierten Bereiches zurück. Die Zahl im Knoten wird
 mit einem Zufallswert von 0 bis größtmöglichen Wert belegt.
 */
-long* Reserver();
+Node* Reserver();
 
 
 /*
