@@ -6,7 +6,7 @@ typedef struct Node {
     struct Node* prev;     // Zeiger auf den vorherigen Node
 } Node;
 
-int AppendToList(Node* list_component, Node* new_item);
+void AppendToList(Node* list_component, Node* new_item);
 
 int GetListLength(Node* list_component);
 

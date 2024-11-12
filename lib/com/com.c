@@ -27,21 +27,20 @@ Node* Gen(unsigned int length) {
     return head;
 }
 
-int AppendToList(Node* item_component, Node* new_item) {
+void AppendToList(Node* item_component, Node* new_item) {
      if (item_component->prev == NULL) {
         item_component->prev = new_item;
-        return 0;
-    }
-    int is_found = 0;
-    Node* current_item = item_component;
-    while (is_found == 0) {
-        if (current_item->next == NULL) {
-            current_item->next = new_item;
-            is_found = 1;
-        }
-        current_item = item_component->next;
-    }
-    return 0;
+    } else {
+         int is_found = 0;
+         Node *current_item = item_component;
+         while (is_found == 0) {
+             if (current_item->next == NULL) {
+                 current_item->next = new_item;
+                 is_found = 1;
+             }
+             current_item = item_component->next;
+         }
+     }
 }
 
 int GetListLength(Node* list_component) {
