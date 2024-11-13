@@ -18,13 +18,13 @@ vom Haupt-Thread zusammengeführt so, dass Ergebnis auch sortiert wird.
 </br> 
 
 
-- Die Datenmenge und die Teilmengen müssen als doppelt verkettete lineare Listen implementiert werden. 
-- Die beiden Zeiger im Knoten, vorwärts und zurück, müssen gepflegt werden [2]. 
-- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien. 
+- Die Datenmenge und die Teilmengen müssen als doppelt verkettete lineare Listen implementiert werden.
+- Die beiden Zeiger im Knoten, vorwärts und zurück, müssen gepflegt werden [2].
+- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien.
 - Sequenzielles Programm protokolliert die Anzahl der Knoten und die Dauer der Sortierung
 - Jeder Thread im parallelen Programm protokolliert außerdem die Nummer des eigenen Threads
-- Die Threads müssen einen Mutex beim Schreiben in die Datei verwenden. 
-- Der Haupt-Thread im parallelen Programm protokolliert die Anzahl der Knoten und gesamte Dauer der Sortierung (inkl. die Sortierung der Teilmengen). 
+- Die Threads müssen einen Mutex beim Schreiben in die Datei verwenden.
+- Der Haupt-Thread im parallelen Programm protokolliert die Anzahl der Knoten und gesamte Dauer der Sortierung (inkl. die Sortierung der Teilmengen).
 - Der Name der log-Datei sowie die Anzahl der Threads müssen im Programm als Präprozessorvariablen festgelegt werden.
 - Die beiden Anwendungen sollten nach dem Schema aus Übungen aufgebaut werden: jeweils eine makefileDatei, Header-Dateien, Dateien  mit main()-Funktionen und eine Datei mit gemeinsamen Funktionen
 - Die makefile-Dateien für beide Anwendungen müssen von Studenten selbst geschrieben werden (keine Standard-makefile!), die Befehle make, make run und make clean müssen funktionieren
@@ -44,28 +44,28 @@ Konstanten und/oder globalen Variablen, Preprozessorvariablen, Datentypen, Proto
 ---
 </br>
 
-- **Sort()**  
+- **Sort()** 
   Sorts the list using its starting address as a parameter, with no return value. Updates the list in place.
 
-- **Gen()**  
+- **Gen()** ✅
   Generates a doubly linked list with a specified number of integer nodes, using `Reserve()` for memory allocation. Returns the starting address of the list.
 
-- **Reserve()**  
+- **Reserve()** ✅
   Allocates memory for a node, initializes it with a random integer, and returns the node's address.
 
-- **ListOut()**  
+- **ListOut()** 
   Displays the entire list or a specified range of nodes. Takes the list's starting address and optional start/end nodes as parameters. If the range is invalid, outputs the whole list without error.
 
-- **ListFree()**  
+- **ListFree()**
   Frees memory for all nodes in the list. Takes the list’s starting address as a parameter with no return value.
 
-- **main() (Sequential)**  
+- **main() (Sequential)**
   Calls `Gen()` to create the list, records start time, calls `Sort()`, and records end time. Logs these details and frees the list with `ListFree()`.
 
-- **main() (Parallel)**  
+- **main() (Parallel)**
   Creates the list with `Gen()`, splits it among threads, and calls `ThrdFunc()` in each thread. After threads finish, merges sorted sublists and logs the process time. Frees the list with `ListFree()`.
 
-- **ThrdFunc()**  
+- **ThrdFunc()**
   Executes within each thread. Records start time, calls `Sort()` on its sublist, records end time, and logs timing details.
 
 </br></br>
@@ -75,6 +75,6 @@ Konstanten und/oder globalen Variablen, Preprozessorvariablen, Datentypen, Proto
 
 ### Notizen: 
 Zahl erzeugen </br>
-Prüfprogramm, dass die Zahl überprüft (freiwillig) 
-Threadanzahl anpassbar  
-Zwei getrennte Programme; trotzdem gemeinsame Funktionalität 
+Prüfprogramm, dass die Zahl überprüft (freiwillig)
+Threadanzahl anpassbar
+Zwei getrennte Programme; trotzdem gemeinsame Funktionalität

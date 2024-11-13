@@ -1,4 +1,5 @@
 #include "utils/rand.h"
+#include <stdbool.h>
 
 typedef struct Node {
     int data;              // Datenelement des Nodes
@@ -32,7 +33,7 @@ verwendet, um die Liste zu sortieren. Sie bekommt die Anfangsadresse der Liste (
 dieser Parameter ebenfalls die Anfangsadresse der Liste. Somit wird dieser Parameter auch in der
 rufenden Funktion bekannt. 
 */
-Node* Sort(Node* head);
+void Sort(Node* head, Node* tail);
 
 /*
 Diese Funktion hat drei Parameter und keinen Rückgabewert. Sie gibt die ganze Liste auf dem
@@ -42,10 +43,20 @@ Endknoten an. Befindet sich der 2. oder der 3. Parameter außerhalb des zulässi
 (1 ... Anzahl der Knoten), so gibt diese Funktion die ganze Liste aus (keine Fehlermeldungen in
 diesem Fall)
 */
-void ListOut(Node* head);
+void ListOut(Node* head, Node* start, Node* end);
 
 /*
 Diese Funktion hat einen Parameter (die Anfangsadresse der ganzen Liste) und keinen
 Rückgabewert. Sie gibt den Speicherbereich aller Knoten in der Liste frei.
 */
 void ListFree(Node* head);
+
+
+bool searchNode(Node* start, Node* query);
+
+/* 
+Diese Funktion sucht das Ende einer verketteten Liste und hat die Adresse als Rückgabewert.
+*/
+Node* chaseTail(Node* node);
+
+Node* partition(Node* low, Node* high);

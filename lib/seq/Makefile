@@ -1,22 +1,19 @@
-COMPILER = gcc
-CFLAGS = -Wall -Wextra -std=c11
-BUILD_DIR = bin$(SEP)objects
+CFLAGS := -Wall -Wextra -std=c11
 
 ifeq ($(OS), WINDOWS_NT)
-	SEP = \
-	DEL_DIR = rmdir /s /q
+	SEP := \
+	DEL_DIR := rmdir /s /q
 else
-	SEP = /
-	DEL_DIR = rm -rf
+	SEP := /
+	DEL_DIR := rm -rf
 endif
 
+.DELETE_ON_ERROR:
 .PHONY: run
 run:
 	mkdir bin
-	mkdir bin$(SEP)objects
-	gcc -c seq.c -o $(BUILD_DIR)
-	gcc -o bin$(SEP)seq $(shell find $(BUILD_DIR) -type f -name '*.o')
-	./seq
+	gcc -o bin$(SEP)seq $(shell find ..$(SEP)com -type f -name '*.c') seq.c $(CFLAGS)
+	.$(SEP)bin$(SEP)seq
 
 .PHONY: clean
 clean:

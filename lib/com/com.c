@@ -1,33 +1,38 @@
 #include "com.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
+#include <pthread.h>
 
 
-Node* Reserve() {
+Node* Reserve() 
+{
     Node* node_new = malloc(sizeof(Node));
     node_new->data = RandZ(DIGITS_MIN + RandZ(2) % DIGITS_MAX);
     return node_new;
 }
 
-Node* Gen(unsigned int length) {
+Node* Gen(unsigned int length)
+{
     Node* current;
 
     Node* head = Reserve();
     head->prev = NULL;
     current = head;
 
-    int i;
-    for (i = 1; i < length; i++ ) {
+    for (unsigned int i = 1; i < length; i++ ) {
         Node* _node = Reserve();
         current->next = _node;
         _node->prev = current;
-        current = _node;       
+        current = _node;
     }
     current->next = NULL;
     return head;
 }
 
-void AppendToList(Node* item_component, Node* new_item) {
+void AppendToList(Node* item_component, Node* new_item) 
+{
      if (item_component->prev == NULL) {
         item_component->prev = new_item;
     } else {
@@ -43,7 +48,8 @@ void AppendToList(Node* item_component, Node* new_item) {
      }
 }
 
-int GetListLength(Node* list_component) {
+int GetListLength(Node* list_component) 
+{
     int length = 0;
     if (list_component == NULL) {
         return length;
@@ -75,4 +81,86 @@ int GetListLength(Node* list_component) {
         }
     }
     return length;
+}
+
+void ListFree(Node* head)
+{
+    Node* current = head->next;
+    while (current->next != NULL)
+    {
+        free(current->prev);
+        current->prev = NULL;
+        current = current->next;
+    }
+    free(current);
+}
+
+void ListOut(Node* head, Node* start, Node* end)
+{
+    // start is in list
+    bool start_in_list = searchNode(head, start);
+    bool end_in_list = searchNode(head, end);
+    bool start_before_end = searchNode(start, end);
+    Node* current;
+    if (!start_in_list || !end_in_list || !start_before_end)
+    {
+        current = head;
+    } else {
+        current = start;
+    }
+    while(current != NULL)
+    {   
+        printf("%d, ", current->data);
+        current = current->next;
+    }
+}
+
+bool searchNode(Node* start, Node* query)
+{
+    Node* current = start;
+    while(current != NULL)
+    {
+        if (current == query)
+        {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+Node* chaseTail(Node* node)
+{
+    while(node->next != NULL)
+    {
+        node = node->next;
+    }
+    return node;
+}
+
+Node* partition(Node* low, Node* high) {
+    int pivot = high->data;
+    Node* i = low->prev;
+
+    for (Node* j = low; j != high; j = j->next) {
+        if (j->data <= pivot) {
+            i = (i == NULL) ? low : i->next;
+            int temp = i->data;
+            i->data = j->data;
+            j->data = temp;
+        }
+    }
+    i = (i == NULL) ? low : i->next;
+    int temp = i->data;
+    i->data = high->data;
+    high->data = temp;
+    return i;
+}
+
+void Sort(Node* head, Node* tail) {
+    if (head != tail && head != NULL && tail != NULL && head != tail->next) {
+        Node* pivot = partition(head, tail);
+        Sort(head, pivot->prev);
+        Sort(pivot->next, tail);
+    }
 }
