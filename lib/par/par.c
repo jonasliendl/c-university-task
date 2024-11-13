@@ -58,14 +58,12 @@ void* ThrdFunc(void* args)
 int main()
 {
     Node* head = Gen(100000);
-    Node* tail = getTail(head);
+    Node* tail = chaseTail(head);
 
-    unsigned int max_threads = 4;
-    int active_threads = 0;
     pthread_mutex_t thread_lock;
     pthread_mutex_init(&thread_lock, NULL);
 
-    ThreadArgs args = {head, tail, max_threads, 0, &thread_lock};
+    ThreadArgs args = {head, tail, AMOUNT_THREADS, 0, &thread_lock};
 
     clock_t begin = clock();
     ThrdFunc(&args);

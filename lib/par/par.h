@@ -1,8 +1,6 @@
 #include "../com/com.h"
 #include <pthread.h>
 
-
-#define MAX_THREADS 4
 #define LOG_FILE "./par.log"
 
 /*
