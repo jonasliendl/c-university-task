@@ -44,7 +44,7 @@ Konstanten und/oder globalen Variablen, Preprozessorvariablen, Datentypen, Proto
 ---
 </br>
 
-- **Sort()** 
+- **Sort()** ✅
   Sorts the list using its starting address as a parameter, with no return value. Updates the list in place.
 
 - **Gen()** ✅
@@ -53,19 +53,19 @@ Konstanten und/oder globalen Variablen, Preprozessorvariablen, Datentypen, Proto
 - **Reserve()** ✅
   Allocates memory for a node, initializes it with a random integer, and returns the node's address.
 
-- **ListOut()** 
+- **ListOut()** ✅
   Displays the entire list or a specified range of nodes. Takes the list's starting address and optional start/end nodes as parameters. If the range is invalid, outputs the whole list without error.
 
-- **ListFree()**
+- **ListFree()** ✅
   Frees memory for all nodes in the list. Takes the list’s starting address as a parameter with no return value.
 
-- **main() (Sequential)**
+- **main() (Sequential)** ✅
   Calls `Gen()` to create the list, records start time, calls `Sort()`, and records end time. Logs these details and frees the list with `ListFree()`.
 
-- **main() (Parallel)**
+- **main() (Parallel)** ✅
   Creates the list with `Gen()`, splits it among threads, and calls `ThrdFunc()` in each thread. After threads finish, merges sorted sublists and logs the process time. Frees the list with `ListFree()`.
 
-- **ThrdFunc()**
+- **ThrdFunc()** ✅
   Executes within each thread. Records start time, calls `Sort()` on its sublist, records end time, and logs timing details.
 
 </br></br>

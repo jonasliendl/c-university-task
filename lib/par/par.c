@@ -57,18 +57,22 @@ void* ThrdFunc(void* args)
 
 int main()
 {
-    Node* unsorted_list = Gen(10);
-    Node* chased_tail = chaseTail(unsorted_list);
+    Node* head = Gen(100000);
+    Node* tail = getTail(head);
 
     unsigned int max_threads = 4;
     int active_threads = 0;
     pthread_mutex_t thread_lock;
     pthread_mutex_init(&thread_lock, NULL);
 
-    ThreadArgs args = {unsorted_list, chased_tail, max_threads, 0, &thread_lock};
+    ThreadArgs args = {head, tail, max_threads, 0, &thread_lock};
 
+    clock_t begin = clock();
     ThrdFunc(&args);
-    ListOut(unsorted_list, unsorted_list, unsorted_list->next->next->next);
-    ListFree(unsorted_list);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("%f", time_spent);
+    ListOut(head, head, tail);
+    ListFree(head);
     return 0;
 } 

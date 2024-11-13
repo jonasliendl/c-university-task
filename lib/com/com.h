@@ -57,6 +57,6 @@ bool searchNode(Node* start, Node* query);
 /* 
 Diese Funktion sucht das Ende einer verketteten Liste und hat die Adresse als Rückgabewert.
 */
-Node* chaseTail(Node* node);
+Node* getTail(Node* node);
 
 Node* partition(Node* low, Node* high);

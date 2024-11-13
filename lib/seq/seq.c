@@ -1,11 +1,11 @@
-#include "../com/com.h"
+#include "seq.h"
 
 int main() 
 {
-    Node* unsorted_list = Gen(100000);
-    Node* chased_tail = chaseTail(unsorted_list);
-    Sort(unsorted_list, chased_tail);
-    ListOut(unsorted_list, unsorted_list, unsorted_list->next->next->next);
-    ListFree(unsorted_list);
+    Node* head = Gen(100000);
+    Node* tail = getTail(head);
+    Sort(head, tail);
+    ListOut(head, head, head->next->next->next);
+    ListFree(head);
     return 0;
 }
