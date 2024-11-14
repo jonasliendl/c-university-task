@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "par.h"
 
-#define AMOUNT_THREADS 2
-
 // ThrdFunc function for managing threads
 void* ThrdFunc(void* args)
 {
@@ -58,12 +56,12 @@ void* ThrdFunc(void* args)
 int main()
 {
     Node* head = Gen(100000);
-    Node* tail = chaseTail(head);
-
+    Node* tail = getTail(head);
+    int active_threads = 0;
     pthread_mutex_t thread_lock;
     pthread_mutex_init(&thread_lock, NULL);
 
-    ThreadArgs args = {head, tail, AMOUNT_THREADS, 0, &thread_lock};
+    ThreadArgs args = {head, tail, MAX_THREADS, active_threads, &thread_lock};
 
     clock_t begin = clock();
     ThrdFunc(&args);

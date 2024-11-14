@@ -128,7 +128,7 @@ bool searchNode(Node* start, Node* query)
     return false;
 }
 
-Node* chaseTail(Node* node)
+Node* getTail(Node* node)
 {
     while(node->next != NULL)
     {
