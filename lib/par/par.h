@@ -1,7 +1,9 @@
 #include "../com/com.h"
 #include <pthread.h>
 
-#define LOG_FILE "./par.log"
+
+#define MAX_THREADS 4
+#define LOG_FILE_PARALLEL "./par.log"
 
 /*
 Diese Funktion führt jeder Thread (außer Haupt-Thread) aus. Sie muss die standardmäßigen

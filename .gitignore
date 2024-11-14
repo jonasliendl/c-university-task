@@ -57,3 +57,11 @@ cmake-build-debug/
 
 # Build folder
 bin/
+
+# Log files 
+log/*
+*.log
+
+# .vscode
+.vscode/
+settings.json

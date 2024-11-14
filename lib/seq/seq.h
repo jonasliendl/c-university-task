@@ -1,3 +1,3 @@
 #include "../com/com.h"
 
-#define LOG_FILE "./seq.log"
+#define LOG_FILE_SEQUENTIAL "seq.log"
