@@ -8,7 +8,7 @@ void* ThrdFunc(void* args)
 {
     clock_t begin;
     clock_t end;
-    int thread_id = pthread_self();
+    pthread_t thread_id = pthread_self();
 
     begin = clock();
     Sort((Node*)args);
@@ -18,6 +18,7 @@ void* ThrdFunc(void* args)
 
 int main()
 {
+    int exit;
     pthread_t thr;
     pthread_mutex_t thread_lock;
     pthread_t threads[AMOUNT_THREADS];
@@ -40,7 +41,7 @@ int main()
     // After all threads are done, merge the doubly linked list
 
     ListOut(head, head, head->next->next);
-    // exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
+    exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
     ListFree(head);
     return exit;
 } 
