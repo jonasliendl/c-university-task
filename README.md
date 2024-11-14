@@ -18,9 +18,9 @@ vom Haupt-Thread zusammengeführt so, dass Ergebnis auch sortiert wird.
 </br> 
 
 
-- Die Datenmenge und die Teilmengen müssen als doppelt verkettete lineare Listen implementiert werden.
-- Die beiden Zeiger im Knoten, vorwärts und zurück, müssen gepflegt werden [2].
-- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien.
+- Die Datenmenge und die Teilmengen müssen als doppelt verkettete lineare Listen implementiert werden. ✅
+- Die beiden Zeiger im Knoten, vorwärts und zurück, müssen gepflegt werden [2]. ✅
+- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien. 
 - Sequenzielles Programm protokolliert die Anzahl der Knoten und die Dauer der Sortierung
 - Jeder Thread im parallelen Programm protokolliert außerdem die Nummer des eigenen Threads
 - Die Threads müssen einen Mutex beim Schreiben in die Datei verwenden.
