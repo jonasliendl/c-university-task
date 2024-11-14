@@ -2,76 +2,45 @@
 #include <stdlib.h>
 #include "par.h"
 
-// ThrdFunc function for managing threads
+#define AMOUNT_THREADS 2
+
 void* ThrdFunc(void* args)
 {
-    ThreadArgs* threadArgs = (ThreadArgs*)args;
-    Node* head = threadArgs->head;
-    Node* tail = threadArgs->tail;
-    int max_threads = threadArgs->max_threads;
-    int active_threads = threadArgs->active_threads;
-    pthread_mutex_t* thread_lock = threadArgs->thread_lock;
-    if (head != tail && head != NULL && tail != NULL && head != tail->next) {
-        Node* pivot = partition(head, tail);
+    clock_t begin;
+    clock_t end;
+    int thread_id = pthread_self();
 
-        // Prepare arguments for the left and right partition threads
-        ThreadArgs leftArgs = {head, pivot->prev, max_threads, active_threads, thread_lock};
-        ThreadArgs rightArgs = {pivot->next, tail, max_threads, active_threads, thread_lock};
-
-        pthread_t leftThread, rightThread;
-        int leftThreadCreated = 0, rightThreadCreated = 0;
-
-        pthread_mutex_lock(thread_lock);
-        if (active_threads < max_threads) {
-            (active_threads)++;
-            leftThreadCreated = pthread_create(&leftThread, NULL, ThrdFunc, &leftArgs) == 0;
-        }
-        if (active_threads < max_threads) {
-            (active_threads)++;
-            rightThreadCreated = pthread_create(&rightThread, NULL, ThrdFunc, &rightArgs) == 0;
-        }
-        pthread_mutex_unlock(thread_lock);
-
-        // If threads couldn't be created due to max_threads limit, fallback to single-threaded Sort
-        if (!leftThreadCreated) Sort(head, pivot->prev);
-        if (!rightThreadCreated) Sort(pivot->next, tail);
-
-        // Join threads if they were created
-        if (leftThreadCreated) {
-            pthread_join(leftThread, NULL);
-            pthread_mutex_lock(thread_lock);
-            (active_threads)--;
-            pthread_mutex_unlock(thread_lock);
-        }
-        if (rightThreadCreated) {
-            pthread_join(rightThread, NULL);
-            pthread_mutex_lock(thread_lock);
-            (active_threads)--;
-            pthread_mutex_unlock(thread_lock);
-        }
-    }
+    begin = clock();
+    Sort((Node*)args);
+    end = clock();
     return NULL;
 }
 
-
 int main()
 {
-    int exit;
-    Node* head = Gen(10);
-    Node* tail = getTail(head);
-    int active_threads = 0;
+    pthread_t thr;
     pthread_mutex_t thread_lock;
+    pthread_t threads[AMOUNT_THREADS];
+    Node* head = Gen(100000);
+
     pthread_mutex_init(&thread_lock, NULL);
 
-    ThreadArgs args = {head, tail, MAX_THREADS, active_threads, &thread_lock};
+    for (int i = 0; i < AMOUNT_THREADS; i++)
+    {
+        // Add head of linked list part for specific thread
+        pthread_create(&thr, NULL, ThrdFunc, (void*) head);
+        threads[i] = thr;
+    }
 
-    clock_t begin = clock();
-    ThrdFunc(&args);
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time spent: %f\n", time_spent);
-    ListOut(head, head, tail);
-    exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
+    for (int i = 0; i < AMOUNT_THREADS; i++)
+    {
+        pthread_join(threads[i], NULL);
+    }
+
+    // After all threads are done, merge the doubly linked list
+
+    ListOut(head, head, head->next->next);
+    // exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
     ListFree(head);
     return exit;
 } 

@@ -9,8 +9,6 @@ typedef struct Node {
 
 void AppendToList(Node* list_component, Node* new_item);
 
-int GetListLength(Node* list_component);
-
 /*
 Diese Funktion generiert eine doppelt verkettete lineare Liste mit ganzen Zahlen, deren Anzahl
 als Parameter angegeben wird. Sie verwendet die Funktion Reserve(), um Arbeitsspeicher für
@@ -33,7 +31,7 @@ verwendet, um die Liste zu sortieren. Sie bekommt die Anfangsadresse der Liste (
 dieser Parameter ebenfalls die Anfangsadresse der Liste. Somit wird dieser Parameter auch in der
 rufenden Funktion bekannt. 
 */
-void Sort(Node* head, Node* tail);
+void Sort(Node* head);
 
 /*
 Diese Funktion hat drei Parameter und keinen Rückgabewert. Sie gibt die ganze Liste auf dem
@@ -51,14 +49,13 @@ Rückgabewert. Sie gibt den Speicherbereich aller Knoten in der Liste frei.
 */
 void ListFree(Node* head);
 
-
-bool searchNode(Node* start, Node* query);
-
 /* 
 Diese Funktion sucht das Ende einer verketteten Liste und hat die Adresse als Rückgabewert.
 */
-Node* getTail(Node* node);
+Node* GetTail(Node* node);
 
-Node* partition(Node* low, Node* high);
+Node* Partition(Node* low, Node* high);
+
+bool SearchNode(Node* start, Node* query);
 
 bool verifySorted(Node* head);
