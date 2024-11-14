@@ -60,3 +60,5 @@ Diese Funktion sucht das Ende einer verketteten Liste und hat die Adresse als RÃ
 Node* getTail(Node* node);
 
 Node* partition(Node* low, Node* high);
+
+bool verifySorted(Node* head);

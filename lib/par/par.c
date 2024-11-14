@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "par.h"
 
 // ThrdFunc function for managing threads
@@ -55,7 +56,8 @@ void* ThrdFunc(void* args)
 
 int main()
 {
-    Node* head = Gen(100000);
+    int exit;
+    Node* head = Gen(10);
     Node* tail = getTail(head);
     int active_threads = 0;
     pthread_mutex_t thread_lock;
@@ -67,8 +69,9 @@ int main()
     ThrdFunc(&args);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("%f", time_spent);
+    printf("time spent: %f\n", time_spent);
     ListOut(head, head, tail);
+    exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
     ListFree(head);
-    return 0;
+    return exit;
 } 

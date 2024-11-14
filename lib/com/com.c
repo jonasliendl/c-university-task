@@ -107,11 +107,12 @@ void ListOut(Node* head, Node* start, Node* end)
     } else {
         current = start;
     }
-    while(current != NULL)
+    while(current->next != NULL)
     {   
         printf("%d, ", current->data);
         current = current->next;
     }
+    printf("%d\n", current->data);
 }
 
 bool searchNode(Node* start, Node* query)
@@ -162,4 +163,19 @@ void Sort(Node* head, Node* tail) {
         Sort(head, pivot->prev);
         Sort(pivot->next, tail);
     }
+}
+
+bool  verifySorted(Node *head)
+{
+    Node* current_node = head;
+    Node* comp_node = head;
+    bool sorted;
+    while (current_node != NULL && current_node->data >= comp_node->data)
+    {
+        comp_node = current_node;
+        current_node = current_node->next;
+    }
+    if (current_node == NULL) sorted = true;
+    else sorted = false;
+    return sorted;
 }
