@@ -1,9 +1,11 @@
 #include "../com/com.h"
 #include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
-#define MAX_THREADS 4
-#define LOG_FILE_PARALLEL "./par.log"
+#define AMOUNT_THREADS 4
+#define LOG_FILE "./log/par.log"
 
 /*
 Diese Funktion führt jeder Thread (außer Haupt-Thread) aus. Sie muss die standardmäßigen
@@ -13,3 +15,9 @@ Anfangsadresse der Liste. Nach der Sortierung merk sie die Endzeit und schreibt 
 benannten Daten in die log-Datei
 */
 void* ThrdFunc(void* args);
+
+typedef struct ThreadArgs 
+{
+    Node* head;
+    pthread_mutex_t* thread_lock;
+} ThreadArgs;

@@ -115,11 +115,17 @@ void QuickSortRecursive(Node* head, Node* tail)
 {
     Node* pivot;
 
-    if (head != NULL)
+    if (head != NULL && tail != NULL && head != tail && head != tail->next)
     {
         pivot = Partition(head, tail);
-        QuickSortRecursive(head, pivot->prev);
-        QuickSortRecursive(pivot->next, tail);
+        if (pivot != NULL && pivot->prev != NULL)
+        {
+            QuickSortRecursive(head, pivot->prev);
+        }
+        if (pivot != NULL && pivot->next != NULL)
+        {
+            QuickSortRecursive(pivot->next, tail);
+        }
     }
 }
 
@@ -142,4 +148,17 @@ void Sort(Node* head)
 {
     Node* tail = GetTail(head);
     QuickSortRecursive(head, tail);
+}
+
+unsigned int GetListLength(Node* head)
+{
+    unsigned int length = 0;
+    Node* current = head;
+
+    while (current != NULL)
+    {
+        length++;
+        current = current->next;
+    }
+    return length;
 }
