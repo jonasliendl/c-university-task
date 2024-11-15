@@ -1,4 +1,4 @@
-CFLAGS := -Wall -Wextra -std=c11
+CFLAGS := -Wall -Wextra -std=c11 -g
 
 ifeq ($(OS), WINDOWS_NT)
 	SEP := \
@@ -21,3 +21,7 @@ clean:
 	$(DEL_DIR) bin
 	$(DEL_DIR) log
 
+.PHONY: compile
+compile:
+	mkdir bin
+	gcc -o bin$(SEP)seq.out $(shell find ..$(SEP)com -type f -name '*.c') seq.c $(CFLAGS)

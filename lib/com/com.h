@@ -59,3 +59,5 @@ Node* Partition(Node* low, Node* high);
 bool SearchNode(Node* start, Node* query);
 
 bool verifySorted(Node* head);
+
+unsigned int GetListLength(Node* head);

@@ -20,15 +20,15 @@ vom Haupt-Thread zusammengeführt so, dass Ergebnis auch sortiert wird.
 
 - Die Datenmenge und die Teilmengen müssen als doppelt verkettete lineare Listen implementiert werden. ✅
 - Die beiden Zeiger im Knoten, vorwärts und zurück, müssen gepflegt werden [2]. ✅
-- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien. 
-- Sequenzielles Programm protokolliert die Anzahl der Knoten und die Dauer der Sortierung
-- Jeder Thread im parallelen Programm protokolliert außerdem die Nummer des eigenen Threads
-- Die Threads müssen einen Mutex beim Schreiben in die Datei verwenden.
+- Die beiden Programme (sequenzielles und paralleles) haben jeweils eine eigene log-Dateien. ✅
+- Sequenzielles Programm protokolliert die Anzahl der Knoten und die Dauer der Sortierung ✅
+- Jeder Thread im parallelen Programm protokolliert außerdem die Nummer des eigenen Threads ✅
+- Die Threads müssen einen Mutex beim Schreiben in die Datei verwenden. ✅
 - Der Haupt-Thread im parallelen Programm protokolliert die Anzahl der Knoten und gesamte Dauer der Sortierung (inkl. die Sortierung der Teilmengen).
-- Der Name der log-Datei sowie die Anzahl der Threads müssen im Programm als Präprozessorvariablen festgelegt werden.
-- Die beiden Anwendungen sollten nach dem Schema aus Übungen aufgebaut werden: jeweils eine makefileDatei, Header-Dateien, Dateien  mit main()-Funktionen und eine Datei mit gemeinsamen Funktionen
+- Der Name der log-Datei sowie die Anzahl der Threads müssen im Programm als Präprozessorvariablen festgelegt werden. ✅
+- Die beiden Anwendungen sollten nach dem Schema aus Übungen aufgebaut werden: jeweils eine makefileDatei, Header-Dateien, Dateien  mit main()-Funktionen und eine Datei mit gemeinsamen Funktionen ✅
 - Die makefile-Dateien für beide Anwendungen müssen von Studenten selbst geschrieben werden (keine Standard-makefile!), die Befehle make, make run und make clean müssen funktionieren
-- Diese Dateien können z.B. seq.make und par.make heißen
+- Diese Dateien können z.B. seq.make und par.make heißen ✅
 
 
 </br> 
