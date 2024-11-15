@@ -9,7 +9,7 @@ int main()
     int exit;
     unsigned int node_amount = 10;
     Node* head = Gen(node_amount);
-    Node* tail = getTail(head);
+    Node* tail = GetTail(head);
 
     clock_t begin = clock();
 
