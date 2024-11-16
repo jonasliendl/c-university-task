@@ -20,7 +20,7 @@ void* ThrdFunc(void* args)
     log_file = fopen(LOG_FILE, "a");
     if (log_file != NULL)
     {
-        fprintf(log_file, "Thread: %lu - Seconds used: %.8f - Nodes: %d\n", thread_id, time_spent, nodes_amount);
+        fprintf(log_file, "Thread: %llu - Seconds used: %.8f - Nodes: %d\n", (unsigned long long)thread_id, time_spent, nodes_amount);
     }
     fclose(log_file);
     pthread_mutex_unlock(thread_args->thread_lock);
@@ -57,13 +57,52 @@ void SplitDLL(Node* head, Node* start_nodes[], Node* end_nodes[])
     }
 }
 
-void MergeDLL(Node* start_nodes[], Node* end_nodes[])
+Node* MergeDLL(Node* start_nodes[], Node* end_nodes[])
 {
-    for (int i = 0; i < AMOUNT_THREADS-1; i++)
+    // in each index pick the smallest node from the sorted lists
+    // return the smallest node at index 0
+
+    Node* head = NULL;
+    Node* current = NULL;
+    Node* smallest = NULL;
+    int smallest_index = -1;
+
+    Node* current_nodes[AMOUNT_THREADS];
+    for (int i = 0; i < AMOUNT_THREADS; i++)
     {
-        end_nodes[i]->next = start_nodes[i+1];
-        start_nodes[i+1]->prev = end_nodes[i];
+        current_nodes[i] = start_nodes[i];
     }
+    while (true){
+        // find the smallest node in this iteration
+        for (int i = 0; i < AMOUNT_THREADS; i++)
+        {
+            if (current_nodes[i] != NULL)
+            {
+                if (smallest == NULL || current_nodes[i]->data < smallest->data)
+                {
+                    smallest = current_nodes[i];
+                    smallest_index = i;
+                }
+            }
+        }
+
+        if (smallest != NULL)
+        {
+            if (head == NULL) head = smallest;
+            if (current == NULL) current = smallest;
+            else if (current != NULL) {
+                current->next = smallest;
+                smallest->prev = current;
+            }
+            current = smallest;
+            current_nodes[smallest_index] = current_nodes[smallest_index]->next;
+            smallest = NULL;
+        } else {
+            break;
+        }
+    }
+
+    return head;
 }
 
 int main()
@@ -76,26 +115,31 @@ int main()
     pthread_t threads[AMOUNT_THREADS];
     ThreadArgs* args[AMOUNT_THREADS];
     Node* head = Gen(10);
-
+    ListOut(head, head, GetTail(head));
     pthread_mutex_init(&thread_lock, NULL);
 
     SplitDLL(head, start_nodes, end_nodes);
 
     for (int i = 0; i < AMOUNT_THREADS; i++)
     {
-        args[i] = (ThreadArgs*) {start_nodes[i], &thread_lock};
-        pthread_create(&thr, NULL, ThrdFunc, (void*) &args[i]);
+        args[i] = malloc(sizeof(ThreadArgs));
+        args[i]->head = start_nodes[i];
+        args[i]->thread_lock = &thread_lock;
+        pthread_create(&thr, NULL, ThrdFunc, (void*) args[i]);
         threads[i] = thr;
     }
-
     for (int i = 0; i < AMOUNT_THREADS; i++)
     {
         pthread_join(threads[i], NULL);
     }
+    for (int i = 0; i < AMOUNT_THREADS; i++)
+    {
+        ListOut(start_nodes[i], start_nodes[i], end_nodes[i]);
+    }
 
-    MergeDLL(start_nodes, end_nodes);
+    head = MergeDLL(start_nodes, end_nodes);
 
-    ListOut(head, head, head);
+    ListOut(head, head, GetTail(head));
     exit = verifySorted(head) ? EXIT_SUCCESS : EXIT_FAILURE;
     ListFree(head);
     return exit;
