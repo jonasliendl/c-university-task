@@ -1,3 +1,12 @@
+// File: com.h
+#ifndef COM_H
+#define COM_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <pthread.h>
+#include <stdbool.h>
 #include "utils/rand.h"
 #include <stdbool.h>
 
@@ -6,6 +15,9 @@ typedef struct Node {
     struct Node* next;     // Zeiger auf den nächsten Node
     struct Node* prev;     // Zeiger auf den vorherigen Node
 } Node;
+
+#define NUM_NODES 10000000
+#define MAX_RAND_VALUE 1000000
 
 void AppendToList(Node* list_component, Node* new_item);
 
@@ -58,6 +70,10 @@ Node* Partition(Node* low, Node* high);
 
 bool SearchNode(Node* start, Node* query);
 
-bool verifySorted(Node* head);
-
 unsigned int GetListLength(Node* head);
+
+bool is_sorted(Node* list);
+
+int get_length(Node* list);
+
+#endif

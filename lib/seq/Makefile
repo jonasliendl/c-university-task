@@ -12,14 +12,12 @@ endif
 .PHONY: run
 run:
 	mkdir bin
-	mkdir log
 	gcc -o bin$(SEP)seq $(shell find ..$(SEP)com -type f -name '*.c') seq.c $(CFLAGS)
 	.$(SEP)bin$(SEP)seq
 
 .PHONY: clean
 clean:
 	$(DEL_DIR) bin
-	$(DEL_DIR) log
 
 .PHONY: compile
 compile:

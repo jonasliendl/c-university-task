@@ -1,162 +1,171 @@
 #include "com.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdbool.h>
 
-
-Node* Reserve()
-{
-    Node* node_new = malloc(sizeof(Node));
-    node_new->data = RandZ(DIGITS_MIN + RandZ(2) % DIGITS_MAX);
-    return node_new;
+Node* Reserve() {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) {
+        perror("Memory allocation failed");
+        exit(1);
+    }
+    newNode->data = rand() % (MAX_RAND_VALUE + 1);
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
 }
 
-Node* Gen(unsigned int length)
-{
-    Node* current;
-    Node* _node;
+Node* Gen(unsigned int count) {
+    if (count <= 0) return NULL;
+
     Node* head = Reserve();
+    Node* current = head;
 
-    head->prev = NULL;
-    current = head;
-
-    for (unsigned int i = 1; i < length; i++)
-    {
-        _node = Reserve();
-        current->next = _node;
-        _node->prev = current;
-        current = _node;
+    for (unsigned int i = 1; i < count; i++) {
+        Node* newNode = Reserve();
+        current->next = newNode;
+        newNode->prev = current;
+        current = newNode;
     }
-    current->next = NULL;
+
     return head;
 }
 
-void ListFree(Node* head)
-{
-    Node* current = head->next;
-
-    while (current->next != NULL)
-    {
-        free(current->prev);
-        current->prev = NULL;
-        current = current->next;
-    }
-    free(current);
-}
-
-void ListOut(Node* head, Node* start, Node* end)
-{
-    bool start_in_list = SearchNode(head, start);
-    bool end_in_list = SearchNode(head, end);
-    bool start_before_end = SearchNode(start, end);
-    Node* current = start;
-
-    if (!start_in_list || !end_in_list || !start_before_end)
-    {
-        current = head;
-    }
-    while(current->next != NULL)
-    {   
-        printf("%d, ", current->data);
-        current = current->next;
-    }
-    printf("%d\n", current->data);
-}
-
-bool SearchNode(Node* start, Node* query)
-{
-    Node* current = start;
-    bool is_found = false;
-
-    while(current != NULL && !is_found)
-    {
-        if (current == query)
-        {
-            is_found = true;
+void ListOut(Node* list, Node* start, Node* end) {
+    // If no start or end specified, print entire list
+    if (!start || !end) {
+        Node* current = list;
+        while (current) {
+            printf("%d ", current->data);
+            current = current->next;
         }
+        printf("\n");
+        return;
+    }
+
+    // Validate start and end are in the list
+    Node* current = list;
+    int startFound = 0, endFound = 0;
+
+    while (current) {
+        if (current == start) startFound = 1;
+        if (current == end) endFound = 1;
         current = current->next;
     }
-    return is_found;
-}
 
-Node* GetTail(Node* node)
-{
-    while(node->next != NULL)
-    {
-        node = node->next;
+    if (!startFound || !endFound) {
+        // If start or end are not in the list, print entire list
+        current = list;
+        while (current) {
+            printf("%d ", current->data);
+            current = current->next;
+        }
+        printf("\n");
+        return;
     }
-    return node;
+
+    // Print from start to end
+    current = start;
+    while (current && current != end->next) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    
+    if (current == end->next) {
+        printf("%d ", end->data);
+    }
+    
+    printf("\n");
 }
 
-Node* Partition(Node* low, Node* high) {
-    int temp;
+void ListFree(Node* list) {
+    while (list) {
+        Node* temp = list;
+        list = list->next;
+        free(temp);
+    }
+}
+
+// Partition function for Quick Sort
+Node* partition(Node* low, Node* high) {
+    // If low or high is NULL, return NULL
+    if (!low || !high) return NULL;
+
+    // Choose the last node as pivot
     int pivot = high->data;
-    Node* i = low->prev;
-
-    for (Node* j = low; j != high; j = j->next)
-    {
-        if (j->data <= pivot)
-        {
+    
+    // Pointer for the greater element
+    Node* i = low ? low->prev : NULL;
+    
+    // Traverse through all nodes
+    for (Node* j = low; j != high; j = j->next) {
+        // If current element is smaller than or equal to pivot
+        if (j->data <= pivot) {
+            // Move i pointer forward
             i = (i == NULL) ? low : i->next;
-            temp = i->data;
-            i->data = j->data;
-            j->data = temp;
+            
+            // Swap data instead of nodes
+            if (i && j) {
+                int temp = i->data;
+                i->data = j->data;
+                j->data = temp;
+            }
         }
     }
+    
+    // Place pivot in correct position
     i = (i == NULL) ? low : i->next;
-    temp = i->data;
-    i->data = high->data;
-    high->data = temp;
+    if (i && high) {
+        int temp = i->data;
+        i->data = high->data;
+        high->data = temp;
+    }
+    
     return i;
 }
 
-void QuickSortRecursive(Node* head, Node* tail)
-{
-    Node* pivot;
+// Recursive Quick Sort function
+void quickSort(Node* low, Node* high) {
+    // Base case: if low is NULL or low == high or low comes after high
+    if (!low || !high || low == high || 
+        (low->prev && low->prev == high)) return;
+    
+    // Find the partition index
+    Node* p = partition(low, high);
+    
+    // Find the last node of the left side
+    Node* left_end = p ? p->prev : NULL;
+    
+    // Recursively sort left and right sides
+    quickSort(low, left_end);
+    quickSort(p ? p->next : NULL, high);
+}
 
-    if (head != NULL && tail != NULL && head != tail && head != tail->next)
-    {
-        pivot = Partition(head, tail);
-        if (pivot != NULL && pivot->prev != NULL)
-        {
-            QuickSortRecursive(head, pivot->prev);
-        }
-        if (pivot != NULL && pivot->next != NULL)
-        {
-            QuickSortRecursive(pivot->next, tail);
-        }
+// Modified Sort function
+void Sort(Node* list) {
+    if (!list) return;
+    
+    // Find the last node
+    Node* last = list;
+    while (last->next) last = last->next;
+    
+    // Call Quick Sort
+    quickSort(list, last);
+}
+
+bool is_sorted(Node* list) {
+    if (!list || !list->next) return true;
+
+    Node* current = list;
+    while (current->next) {
+        if (current->data > current->next->data) return false;
+        current = current->next;
     }
+
+    return true;
 }
 
-bool  verifySorted(Node *head)
-{
-    Node* current_node = head;
-    Node* comp_node = head;
-    bool sorted;
-    while (current_node != NULL && current_node->data >= comp_node->data)
-    {
-        comp_node = current_node;
-        current_node = current_node->next;
-    }
-    if (current_node == NULL) sorted = true;
-    else sorted = false;
-    return sorted;
-}
-
-void Sort(Node* head)
-{
-    Node* tail = GetTail(head);
-    QuickSortRecursive(head, tail);
-}
-
-unsigned int GetListLength(Node* head)
-{
-    unsigned int length = 0;
-    Node* current = head;
-
-    while (current != NULL)
-    {
+int get_length(Node* list) {
+    int length = 0;
+    Node* current = list;
+    while (current) {
         length++;
         current = current->next;
     }
