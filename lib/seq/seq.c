@@ -2,14 +2,14 @@
 
 int main() 
 {
-    unsigned int node_amount = 10000000;
-    Node* head = Gen(node_amount);
     clock_t end;
     double time_spent;
     FILE* file;
     bool sorted;
     int length;
 
+    unsigned int node_amount = 10000000;
+    Node* head = Gen(node_amount);
     clock_t begin = clock();
 
     Sort(head);
