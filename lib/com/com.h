@@ -19,8 +19,6 @@ typedef struct Node {
 #define NUM_NODES 10000000
 #define MAX_RAND_VALUE 1000000
 
-void AppendToList(Node* list_component, Node* new_item);
-
 /*
 Diese Funktion generiert eine doppelt verkettete lineare Liste mit ganzen Zahlen, deren Anzahl
 als Parameter angegeben wird. Sie verwendet die Funktion Reserve(), um Arbeitsspeicher für
@@ -61,19 +59,10 @@ Rückgabewert. Sie gibt den Speicherbereich aller Knoten in der Liste frei.
 */
 void ListFree(Node* head);
 
-/* 
-Diese Funktion sucht das Ende einer verketteten Liste und hat die Adresse als Rückgabewert.
-*/
-Node* GetTail(Node* node);
-
 Node* Partition(Node* low, Node* high);
 
-bool SearchNode(Node* start, Node* query);
+bool IsSorted(Node* list);
 
-unsigned int GetListLength(Node* head);
-
-bool is_sorted(Node* list);
-
-int get_length(Node* list);
+int GetLength(Node* list);
 
 #endif

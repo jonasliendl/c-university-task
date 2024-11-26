@@ -44,20 +44,19 @@ Node* merge_sorted_lists(Node* list1, Node* list2) {
         // If next element in current list is less than first in other list, move forward
         if (current->next->data <= other->data) {
             current = current->next;
-            continue;
+        } else {
+            // Swap in an element from the other list
+            Node* temp = current->next;
+            Node* other_next = other->next;
+
+            current->next = other;
+            other->prev = current;
+            other->next = temp;
+            if (temp) temp->prev = other;
+
+            current = other;
+            other = other_next;
         }
-
-        // Swap in an element from the other list
-        Node* temp = current->next;
-        Node* other_next = other->next;
-
-        current->next = other;
-        other->prev = current;
-        other->next = temp;
-        if (temp) temp->prev = other;
-
-        current = other;
-        other = other_next;
     }
 
     // Append remaining elements
@@ -78,8 +77,16 @@ int main() {
 
     Node* list = Gen(NUM_NODES);
     Node* thread_lists[NUM_THREADS];
-    
+    Node* current = list;
+    Node* merged_list;
+    int nodes_per_thread = NUM_NODES / NUM_THREADS;
+    pthread_t threads[NUM_THREADS];
+    ThreadArgs thread_args[NUM_THREADS];
+    clock_t start;
+    clock_t end;
+    double time_spent;
     FILE* logfile = fopen(LOG_FILE, "w");
+
     if (!logfile) {
         perror("Cannot open log file");
         return 1;
@@ -90,26 +97,23 @@ int main() {
     logfile = fopen(LOG_FILE, "a");
 
     // Divide list into thread lists
-    Node* current = list;
-    int nodes_per_thread = NUM_NODES / NUM_THREADS;
     for (int i = 0; i < NUM_THREADS; i++) {
         thread_lists[i] = current;
-        for (int j = 0; j < nodes_per_thread && current; j++) {
+        int j = 0;
+        int is_found = 0;
+        while (j++, j < nodes_per_thread && current && !is_found) {
             if (j == nodes_per_thread - 1 || current->next == NULL) {
                 Node* temp = current->next;
                 current->next = NULL;
                 if (temp) temp->prev = NULL;
                 current = temp;
-                break;
+                is_found = 1;
             }
             current = current->next;
         }
     }
 
-    pthread_t threads[NUM_THREADS];
-    ThreadArgs thread_args[NUM_THREADS];
-
-    clock_t start = clock();
+    start = clock();
 
     for (int i = 0; i < NUM_THREADS; i++) {
         thread_args[i].sublist = thread_lists[i];
@@ -122,17 +126,18 @@ int main() {
     }
 
     // Merge sorted lists
-    Node* merged_list = thread_lists[0];
+    merged_list = thread_lists[0];
     for (int i = 1; i < NUM_THREADS; i++) {
         merged_list = merge_sorted_lists(merged_list, thread_lists[i]);
     }
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+    end = clock();
+    time_spent = (double)(end - start) / CLOCKS_PER_SEC;
 
     fprintf(logfile, "Nodes: %d\n", NUM_NODES);
     fprintf(logfile, "Total Sort Time: %f seconds\n", time_spent);
     
     fclose(logfile);
+    ListOut(merged_list, merged_list, merged_list->prev);
     ListFree(merged_list);
 
     return 0;

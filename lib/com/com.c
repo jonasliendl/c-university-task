@@ -30,8 +30,10 @@ Node* Gen(unsigned int count) {
 
 void ListOut(Node* list, Node* start, Node* end) {
     // If no start or end specified, print entire list
+    Node* current = list;
+    int startFound = 0, endFound = 0;
+
     if (!start || !end) {
-        Node* current = list;
         while (current) {
             printf("%d ", current->data);
             current = current->next;
@@ -41,9 +43,6 @@ void ListOut(Node* list, Node* start, Node* end) {
     }
 
     // Validate start and end are in the list
-    Node* current = list;
-    int startFound = 0, endFound = 0;
-
     while (current) {
         if (current == start) startFound = 1;
         if (current == end) endFound = 1;
@@ -76,15 +75,17 @@ void ListOut(Node* list, Node* start, Node* end) {
 }
 
 void ListFree(Node* list) {
+    Node* temp;
+
     while (list) {
-        Node* temp = list;
+        temp = list;
         list = list->next;
         free(temp);
     }
 }
 
 // Partition function for Quick Sort
-Node* partition(Node* low, Node* high) {
+Node* Partition(Node* low, Node* high) {
     // If low or high is NULL, return NULL
     if (!low || !high) return NULL;
 
@@ -93,6 +94,7 @@ Node* partition(Node* low, Node* high) {
     
     // Pointer for the greater element
     Node* i = low ? low->prev : NULL;
+    int temp;
     
     // Traverse through all nodes
     for (Node* j = low; j != high; j = j->next) {
@@ -103,7 +105,7 @@ Node* partition(Node* low, Node* high) {
             
             // Swap data instead of nodes
             if (i && j) {
-                int temp = i->data;
+                temp = i->data;
                 i->data = j->data;
                 j->data = temp;
             }
@@ -113,7 +115,7 @@ Node* partition(Node* low, Node* high) {
     // Place pivot in correct position
     i = (i == NULL) ? low : i->next;
     if (i && high) {
-        int temp = i->data;
+        temp = i->data;
         i->data = high->data;
         high->data = temp;
     }
@@ -128,7 +130,7 @@ void quickSort(Node* low, Node* high) {
         (low->prev && low->prev == high)) return;
     
     // Find the partition index
-    Node* p = partition(low, high);
+    Node* p = Partition(low, high);
     
     // Find the last node of the left side
     Node* left_end = p ? p->prev : NULL;
@@ -150,7 +152,7 @@ void Sort(Node* list) {
     quickSort(list, last);
 }
 
-bool is_sorted(Node* list) {
+bool IsSorted(Node* list) {
     if (!list || !list->next) return true;
 
     Node* current = list;
@@ -162,7 +164,7 @@ bool is_sorted(Node* list) {
     return true;
 }
 
-int get_length(Node* list) {
+int GetLength(Node* list) {
     int length = 0;
     Node* current = list;
     while (current) {
