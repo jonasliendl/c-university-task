@@ -62,7 +62,6 @@ void ListOut(Node* list, Node* start, Node* end) {
 
 void ListFree(Node* list) {
     Node* temp;
-
     while (list) {
         temp = list;
         list = list->next;
@@ -109,7 +108,7 @@ Node* Partition(Node* low, Node* high) {
 }
 
 // Recursive Quick Sort function
-void quickSort(Node* low, Node* high) {
+void QuickSort(Node* low, Node* high) {
     if (low && high && low != high && (!low->prev || low->prev != high)) {
         // Find the partition index
         Node* p = Partition(low, high);
@@ -118,8 +117,8 @@ void quickSort(Node* low, Node* high) {
         Node* left_end = p ? p->prev : NULL;
         
         // Recursively sort left and right sides
-        quickSort(low, left_end);
-        quickSort(p ? p->next : NULL, high);
+        QuickSort(low, left_end);
+        QuickSort(p ? p->next : NULL, high);
     }
 }
 
@@ -131,7 +130,7 @@ void Sort(Node* list) {
         while (last->next) last = last->next;
         
         // Call Quick Sort
-        quickSort(list, last);
+        QuickSort(list, last);
     }
 }
 

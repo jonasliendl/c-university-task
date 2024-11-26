@@ -41,7 +41,7 @@ verwendet, um die Liste zu sortieren. Sie bekommt die Anfangsadresse der Liste (
 dieser Parameter ebenfalls die Anfangsadresse der Liste. Somit wird dieser Parameter auch in der
 rufenden Funktion bekannt. 
 */
-void Sort(Node* head);
+void Sort(Node* list);
 
 /*
 Diese Funktion hat drei Parameter und keinen Rückgabewert. Sie gibt die ganze Liste auf dem

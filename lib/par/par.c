@@ -146,7 +146,7 @@ int main() {
         fprintf(logfile, "Total Sort Time: %f seconds\n", time_spent);
         
         fclose(logfile);
-        ListOut(merged_list, merged_list, merged_list->prev);
+        
         ListFree(merged_list);
     }
     return result;

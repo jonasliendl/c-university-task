@@ -5,8 +5,6 @@ int main()
     clock_t end;
     double time_spent;
     FILE* file;
-    bool sorted;
-    int length;
 
     unsigned int node_amount = 10000000;
     Node* head = Gen(node_amount);
@@ -16,7 +14,6 @@ int main()
 
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time spent: %f\n", time_spent);
     
     file = fopen(LOG_FILE_SEQUENTIAL, "w");
     if (file != NULL) {
@@ -24,16 +21,6 @@ int main()
         fprintf(file, "Node amount: %d\n", node_amount);
         fclose(file);
     }
-    sorted = IsSorted(head);
-    if (sorted) {
-        printf("List is sorted\n");
-    } else {
-        printf("List is not sorted\n");
-    }
-    length = GetLength(head);
-    printf("List length: %d\n", length);
-
-    ListOut(head, head, head->prev);
 
     ListFree(head);
     return 0;
