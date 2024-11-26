@@ -8,11 +8,12 @@ typedef struct {
 } ThreadArgs;
 
 void* ThrdFunc(void* arg) {
-    ThreadArgs* args = (ThreadArgs*)arg;
-    Node* result = args->sublist;
     clock_t start;
     clock_t end;
     double time_spent;
+
+    ThreadArgs* args = (ThreadArgs*)arg;
+    Node* result = args->sublist;
     FILE* logfile = fopen(LOG_FILE, "a");
 
     if (!logfile) {
@@ -42,19 +43,22 @@ Node* merge_sorted_lists(Node* list1, Node* list2) {
     } else if (!list2) {
         result = list1;
     } else {
+        Node* temp;
+        Node* other_next;
+
         // Determine which list starts first
         Node* head = (list1->data <= list2->data) ? list1 : list2;
         Node* other = (list1->data <= list2->data) ? list2 : list1;
-
         Node* current = head;
+
         while (current->next && other) {
             // If next element in current list is less than first in other list, move forward
             if (current->next->data <= other->data) {
                 current = current->next;
             } else {
                 // Swap in an element from the other list
-                Node* temp = current->next;
-                Node* other_next = other->next;
+                temp = current->next;
+                other_next = other->next;
 
                 current->next = other;
                 other->prev = current;
@@ -84,11 +88,15 @@ Node* merge_sorted_lists(Node* list1, Node* list2) {
 int main() {
     Node* thread_lists[NUM_THREADS];
     Node* merged_list;
+    Node* temp;
     pthread_t threads[NUM_THREADS];
     ThreadArgs thread_args[NUM_THREADS];
     clock_t start;
     clock_t end;
     double time_spent;
+    int i;
+    int j;
+    int is_found;
 
     int result = 0;
     Node* list = Gen(NUM_NODES);
@@ -106,13 +114,13 @@ int main() {
         logfile = fopen(LOG_FILE, "a");
 
         // Divide list into thread lists
-        for (int i = 0; i < NUM_THREADS; i++) {
+        for (i = 0; i < NUM_THREADS; i++) {
             thread_lists[i] = current;
-            int j = 0;
-            int is_found = 0;
+            j = 0;
+            is_found = 0;
             while (j++, j < nodes_per_thread && current && !is_found) {
                 if (j == nodes_per_thread - 1 || current->next == NULL) {
-                    Node* temp = current->next;
+                    temp = current->next;
                     current->next = NULL;
                     if (temp) temp->prev = NULL;
                     current = temp;
@@ -124,19 +132,19 @@ int main() {
 
         start = clock();
 
-        for (int i = 0; i < NUM_THREADS; i++) {
+        for (i = 0; i < NUM_THREADS; i++) {
             thread_args[i].sublist = thread_lists[i];
             thread_args[i].thread_num = i + 1;
             pthread_create(&threads[i], NULL, ThrdFunc, &thread_args[i]);
         }
 
-        for (int i = 0; i < NUM_THREADS; i++) {
+        for (i = 0; i < NUM_THREADS; i++) {
             pthread_join(threads[i], (void**)&thread_lists[i]);
         }
 
         // Merge sorted lists
         merged_list = thread_lists[0];
-        for (int i = 1; i < NUM_THREADS; i++) {
+        for (i = 1; i < NUM_THREADS; i++) {
             merged_list = merge_sorted_lists(merged_list, thread_lists[i]);
         }
         end = clock();

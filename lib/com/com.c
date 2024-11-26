@@ -1,25 +1,34 @@
 #include "com.h"
 
 Node* Reserve() {
+    Node* result;
+
     Node* newNode = (Node*)malloc(sizeof(Node));
+
     if (!newNode) {
         perror("Memory allocation failed");
-        exit(1);
+        result = NULL;
+    } else {
+        newNode->data = rand() % (MAX_RAND_VALUE + 1);
+        newNode->next = NULL;
+        newNode->prev = NULL;
+        result = newNode;
     }
-    newNode->data = rand() % (MAX_RAND_VALUE + 1);
-    newNode->next = NULL;
-    newNode->prev = NULL;
-    return newNode;
+    return result;
 }
 
 Node* Gen(unsigned int count) {
+    Node* current;
+    Node* newNode;
+
     Node* result = NULL;
+
     if (count > 0) {
         result = Reserve();
-        Node* current = result;
+        current = result;
 
         for (unsigned int i = 1; i < count; i++) {
-            Node* newNode = Reserve();
+            newNode = Reserve();
             current->next = newNode;
             newNode->prev = current;
             current = newNode;
@@ -76,6 +85,7 @@ Node* Partition(Node* low, Node* high) {
     if (low && high) {
         int temp;
         Node* j;
+
         int pivot = high->data;
         Node* i = low ? low->prev : NULL;
         
@@ -150,6 +160,7 @@ bool IsSorted(Node* list) {
 int GetLength(Node* list) {
     int length = 0;
     Node* current = list;
+    
     while (current) {
         length++;
         current = current->next;
