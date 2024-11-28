@@ -51,7 +51,7 @@ Endknoten an. Befindet sich der 2. oder der 3. Parameter außerhalb des zulässi
 (1 ... Anzahl der Knoten), so gibt diese Funktion die ganze Liste aus (keine Fehlermeldungen in
 diesem Fall)
 */
-void ListOut(Node* head, Node* start, Node* end);
+void ListOut(Node* head, int start, int end);
 
 /*
 Diese Funktion hat einen Parameter (die Anfangsadresse der ganzen Liste) und keinen

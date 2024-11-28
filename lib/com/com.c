@@ -38,32 +38,21 @@ Node* Gen(unsigned int count) {
     return result;
 }
 
-void ListOut(Node* list, Node* start, Node* end) {
+void ListOut(Node* list, int start, int end) {
     Node* current = list;
-    int startFound = 0, endFound = 0;
+    int i;
 
-    while (current) {
-        if (current == start) startFound = 1;
-        if (current == end) endFound = 1;
-        current = current->next;
-    }
-
-    if (!startFound || !endFound) {
-        // If start or end are not in the list, print entire list
-        current = list;
+    if (start < 0 || end > GetLength(list)) {
         while (current) {
             printf("%d ", current->data);
             current = current->next;
         }
     } else {
-        current = start;
-        while (current && current != end->next) {
-            printf("%d ", current->data);
+        for (i = 0; i < end; i++) {
+            if (i >= start) {
+                printf("%d ", current->data);
+            }
             current = current->next;
-        }
-        
-        if (current == end->next) {
-            printf("%d ", end->data);
         }
     }
     printf("\n");
