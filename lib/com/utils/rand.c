@@ -16,6 +16,8 @@ unsigned int RandZ (unsigned char places)
         while (d*=10, j<places) j++;
     }
     else
+    {
         srand(time(NULL));  //  if places == 0 then init
+    }
     return (unsigned int) d;  // unsigned int = xxx xxx xxx
 }

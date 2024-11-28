@@ -59,10 +59,28 @@ Rückgabewert. Sie gibt den Speicherbereich aller Knoten in der Liste frei.
 */
 void ListFree(Node* head);
 
+/*
+Diese Funktion führt die Partitionierung der Liste durch. Sie bekommt zwei Parameter, die die
+Anfangs- und Endadresse der Liste angeben. Sie gibt die Adresse des Pivotelements zurück.
+*/
 Node* Partition(Node* low, Node* high);
 
+/*
+Diese Funktion prüft, ob die Liste sortiert ist. Sie bekommt die Anfangsadresse der Liste als
+Parameter und gibt einen Wahrheitswert zurück.
+*/
 bool IsSorted(Node* list);
 
+/*
+Diese Funktion gibt die Anzahl der Knoten in der Liste zurück. Sie bekommt die Anfangsadresse der
+Liste als Parameter.
+*/
 int GetLength(Node* list);
+
+/*
+Diese Funktion führt die rekursive Quick-Sortierung der Liste durch. Sie bekommt zwei Parameter,
+die die Anfangs- und Endadresse der Liste angeben. Sie hat keinen Rückgabewert.
+*/
+void QuickSort(Node* low, Node* high);
 
 #endif
