@@ -2,6 +2,11 @@
 
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+typedef struct {
+    Node* sublist;
+    int thread_num;
+} ThreadArgs;
+
 void* ThrdFunc(void* arg) {
     clock_t start;
     clock_t end;
