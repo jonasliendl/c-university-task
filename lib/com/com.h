@@ -7,7 +7,6 @@
 #include <time.h>
 #include <pthread.h>
 #include <stdbool.h>
-#include "utils/rand.h"
 #include <stdbool.h>
 
 typedef struct Node {
