@@ -2,7 +2,7 @@ CFLAGS := -Wall -Wextra -std=c11 -g
 
 SEP := /
 
-SRC_DIRS := ../com ../com/utils
+SRC_DIRS := ../com
 
 C_FILES := $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
 
