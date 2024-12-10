@@ -1,6 +1,17 @@
 # c-university-task
 Task in operating systems lesson programmed in C.
 
+## Programm ausführen
+
+```bash
+make -f par.make clean
+make -f par.make
+
+make -f seq.make clean
+make -f seq.make
+``` 
+
+
 ## Task Description
 In dieser Arbeit betrachtet man eine große Menge der Daten (z.B. die ganzen Zahlen), die aufsteigend sortiert
 werden soll. Zwei Programme sind notwendig: das eine sortiert die Daten sequenziell, das andere ― parallel. Die
