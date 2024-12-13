@@ -4,8 +4,6 @@ Task in operating systems lesson programmed in C.
 ## Programm ausführen
 
 ```bash
-cd lib
-
 make -f par.make clean
 make -f par.make
 
